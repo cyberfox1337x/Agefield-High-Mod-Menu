@@ -4,7 +4,7 @@
 
 
 
-A self-contained Electron + React + TypeScript Windows application that recreates the supplied neon school-hallway mod-menu design. The frameless desktop window uses custom Agefield controls and proportionally fits its complete design canvas into every supported window size without document scrollbars. It is intentionally offline-only: there are no network requests, analytics, accounts, or multiplayer features.
+A self-contained Electron + React + TypeScript Windows application that recreates the supplied neon school-hallway mod-menu design. The frameless desktop window uses custom Agefield controls and proportionally fits its complete design canvas into every supported window size without document scrollbars. It is intentionally there are no network requests, analytics, accounts, or multiplayer features.
 
 ## Current integration status
 
