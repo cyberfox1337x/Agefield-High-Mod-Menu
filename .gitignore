@@ -6,7 +6,8 @@ release/
 visual-qa/
 analysis/
 backups/
-installer/runtime/
+installer/runtime/*
+!installer/runtime/payload-manifest.json
 integration/uue4ss/Mods/AgefieldReflectionDiscovery/
 .wrangler/
 .dev.vars

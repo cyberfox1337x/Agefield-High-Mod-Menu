@@ -1,0 +1,199 @@
+﻿{
+    "cyberfox1337x":  "function(agefield_runtime_payload_manifest)",
+    "schemaVersion":  1,
+    "applicationVersion":  "1.6.0",
+    "bridgeVersion":  "1.5.5",
+    "steamAppId":  "3562580",
+    "steamBuildId":  "24987926",
+    "shippingExecutableSha256":  "4C8EAE91E49295780D9C0D1F850773AFBC535E1120D3EDAB5992D575B3127951",
+    "ue4ssVersion":  "3.0.1",
+    "ue4ssArchive":  {
+                         "packagePath":  "vendor/UE4SS_v3.0.1.zip",
+                         "bytes":  5523402,
+                         "sha256":  "4B47D4BCEDDD2F561A4E395BFA00924CCFC945AF576A2D0C613E6537846C57EC",
+                         "source":  "https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/v3.0.1",
+                         "license":  "MIT"
+                     },
+    "requiredSettings":  [
+                             {
+                                 "section":  "Hooks",
+                                 "key":  "HookProcessInternal",
+                                 "value":  "1",
+                                 "reason":  "Required for the verified native damage hook used by God Mode."
+                             },
+                             {
+                                 "section":  "Hooks",
+                                 "key":  "HookInitGameState",
+                                 "value":  "1",
+                                 "reason":  "Required for the verified game-state hook lifecycle used by the production Lua runtime."
+                             }
+                         ],
+    "requiredModRegistry":  [
+                                {
+                                    "name":  "Keybinds",
+                                    "value":  "1"
+                                },
+                                {
+                                    "name":  "AgefieldModBridge",
+                                    "value":  "1"
+                                },
+                                {
+                                    "name":  "AgefieldReflectionDiscovery",
+                                    "value":  "0"
+                                }
+                            ],
+    "overlays":  [
+                     {
+                         "packagePath":  "overrides/UE4SS-settings.ini",
+                         "targetPath":  "UE4SS-settings.ini",
+                         "sha256":  "BCBB2E351341686CC5C44A36CB1FA3EE8C7219940D6CA047459E693F0ADF2022"
+                     },
+                     {
+                         "packagePath":  "overrides/Mods/mods.txt",
+                         "targetPath":  "Mods/mods.txt",
+                         "sha256":  "FCE45A23B7F04352ADCC9A214292980F43032D365E395032F53D3B2D639236BC"
+                     },
+                     {
+                         "packagePath":  "overrides/Mods/AgefieldModBridge/Scripts/main.lua",
+                         "targetPath":  "Mods/AgefieldModBridge/Scripts/main.lua",
+                         "sha256":  "52A9EC95065E884F5B5A485237A82A179D680AC05CD8BA54D4A6EEBB7218F40F"
+                     },
+                     {
+                         "packagePath":  "overrides/Mods/shared/cyberfox1337x.lua",
+                         "targetPath":  "Mods/shared/cyberfox1337x.lua",
+                         "sha256":  "ABA2CABB6F960D2B62E31A0510151A111F3261E7286D3495519138A0849A4C1D"
+                     },
+                     {
+                         "packagePath":  "vendor/UE4SS-LICENSE.txt",
+                         "targetPath":  "THIRD-PARTY-NOTICES/UE4SS-LICENSE.txt",
+                         "sha256":  "DDC030E25D0EA87ACA4AE84C0ED3F868D69273C00C0C12EA1E26F1C6130F5D2E"
+                     }
+                 ],
+    "payloadFiles":  [
+                         {
+                             "relativePath":  "Changelog.md",
+                             "bytes":  27560,
+                             "sha256":  "2EC5D2A365A2C54B1DD92B2B9080EB2CD7824A816FC9A5E970505EC1BAFC6869"
+                         },
+                         {
+                             "relativePath":  "dwmapi.dll",
+                             "bytes":  58368,
+                             "sha256":  "CE596412BEFA68C30B7F88F65BEB77D9BDAD55E9B96A276A5A9CF690C63F24BB"
+                         },
+                         {
+                             "relativePath":  "Mods/ActorDumperMod/Scripts/main.lua",
+                             "bytes":  613,
+                             "sha256":  "BE09F35A72FCFB274DFEAE4E9507295B0BB0EC89C9A8CEBC0B207AB790A82503"
+                         },
+                         {
+                             "relativePath":  "Mods/AgefieldModBridge/Scripts/main.lua",
+                             "bytes":  81377,
+                             "sha256":  "52A9EC95065E884F5B5A485237A82A179D680AC05CD8BA54D4A6EEBB7218F40F"
+                         },
+                         {
+                             "relativePath":  "Mods/BPML_GenericFunctions/Scripts/main.lua",
+                             "bytes":  2948,
+                             "sha256":  "076138D69DCCB9C75C1E54A3C9F7539EFBABE9ADB4082B774D10079BDFCC649D"
+                         },
+                         {
+                             "relativePath":  "Mods/BPModLoaderMod/load_order.txt",
+                             "bytes":  265,
+                             "sha256":  "E260B9B0D8D472EE3EBAB77204C838F3D2AAD8A9D5F08B9B8CB6B42B7B5418B9"
+                         },
+                         {
+                             "relativePath":  "Mods/BPModLoaderMod/Scripts/main.lua",
+                             "bytes":  10363,
+                             "sha256":  "B63A0236792F31AE81E93A9FC5D729BF1BEF0614331FFC9D34A14DA2BD1C84CB"
+                         },
+                         {
+                             "relativePath":  "Mods/CheatManagerEnablerMod/Scripts/main.lua",
+                             "bytes":  1219,
+                             "sha256":  "ED0203ECEBE99C0C2816E3BE291EEF168F4E5FD03DAD5CA93EBEB02BC9C7D845"
+                         },
+                         {
+                             "relativePath":  "Mods/ConsoleCommandsMod/Scripts/dump_object.lua",
+                             "bytes":  13093,
+                             "sha256":  "365B7E8A803F8AE917F54F6C852854C681E388227DD1F94B0EA3F6FB938B5086"
+                         },
+                         {
+                             "relativePath":  "Mods/ConsoleCommandsMod/Scripts/main.lua",
+                             "bytes":  270,
+                             "sha256":  "421D49034866D539FE254FEA3E68785B51D18D7FA74950DA4289F83A0E43802A"
+                         },
+                         {
+                             "relativePath":  "Mods/ConsoleCommandsMod/Scripts/set.lua",
+                             "bytes":  2056,
+                             "sha256":  "876E7DE49F0E30A4329C081472BC7D5E1948459C774B7ABBB8BE4B6323F16EC8"
+                         },
+                         {
+                             "relativePath":  "Mods/ConsoleCommandsMod/Scripts/summon_unloaded_assets.lua",
+                             "bytes":  489,
+                             "sha256":  "194B557404B6078767F8B57B836AA44D084CF6F3F2CBDE71A6831857567F8103"
+                         },
+                         {
+                             "relativePath":  "Mods/ConsoleEnablerMod/Scripts/main.lua",
+                             "bytes":  2069,
+                             "sha256":  "2B8B44CA28FF5210E2207E9EB50AA8E5B8622135A67A71FFB4D2F94FF09422DC"
+                         },
+                         {
+                             "relativePath":  "Mods/jsbLuaProfilerMod/Scripts/main.lua",
+                             "bytes":  579,
+                             "sha256":  "ABC04F3DFA1D8BB2BE81999D0560272F5156B3643DC892B2D0D071A18BC585A3"
+                         },
+                         {
+                             "relativePath":  "Mods/Keybinds/Scripts/main.lua",
+                             "bytes":  4025,
+                             "sha256":  "560E8FFFFE3B7E0378C63DB8A8F8DA6465397A098D554B3A1D38E95794E3EB48"
+                         },
+                         {
+                             "relativePath":  "Mods/LineTraceMod/Scripts/main.lua",
+                             "bytes":  2537,
+                             "sha256":  "F645871D3E71D716518A0DE453D88985BB19FCE69C37624B9958AEC6E957FA92"
+                         },
+                         {
+                             "relativePath":  "Mods/mods.txt",
+                             "bytes":  318,
+                             "sha256":  "FCE45A23B7F04352ADCC9A214292980F43032D365E395032F53D3B2D639236BC"
+                         },
+                         {
+                             "relativePath":  "Mods/shared/cyberfox1337x.lua",
+                             "bytes":  259,
+                             "sha256":  "ABA2CABB6F960D2B62E31A0510151A111F3261E7286D3495519138A0849A4C1D"
+                         },
+                         {
+                             "relativePath":  "Mods/shared/jsbProfiler/jsbProfi.lua",
+                             "bytes":  14548,
+                             "sha256":  "369192040B42FCB1447DE087F8360C53163261F189CF5CA8A7900F31884CD2BF"
+                         },
+                         {
+                             "relativePath":  "Mods/shared/UEHelpers/UEHelpers.lua",
+                             "bytes":  4084,
+                             "sha256":  "0360091748880FE82AF01546F594561B771B5774304324E7665EC5738C9C6203"
+                         },
+                         {
+                             "relativePath":  "Mods/SplitScreenMod/Scripts/main.lua",
+                             "bytes":  4164,
+                             "sha256":  "02F48D3D02AAD0F2783EC9A3B65C78D0496AD46C2E656783240F032014006C2B"
+                         },
+                         {
+                             "relativePath":  "README.md",
+                             "bytes":  7537,
+                             "sha256":  "697CE980B6EF46EFCA6318689AFD039F3C34E794700A26BB0FAC274496BBF23F"
+                         },
+                         {
+                             "relativePath":  "THIRD-PARTY-NOTICES/UE4SS-LICENSE.txt",
+                             "bytes":  1064,
+                             "sha256":  "DDC030E25D0EA87ACA4AE84C0ED3F868D69273C00C0C12EA1E26F1C6130F5D2E"
+                         },
+                         {
+                             "relativePath":  "UE4SS.dll",
+                             "bytes":  16263680,
+                             "sha256":  "8AC18FBFFC1EF96B0662D4A2D537B3F224C26D65CAABA7989A9404C566102B26"
+                         },
+                         {
+                             "relativePath":  "UE4SS-settings.ini",
+                             "bytes":  1268,
+                             "sha256":  "BCBB2E351341686CC5C44A36CB1FA3EE8C7219940D6CA047459E693F0ADF2022"
+                         }
+                     ]
+}
