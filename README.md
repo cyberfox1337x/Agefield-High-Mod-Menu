@@ -1,5 +1,9 @@
 # Agefield High Mod Menu
 
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/fd172ddf-7bcb-4e1c-8c44-fe6cac22c15a" />
+
+
+
 A self-contained Electron + React + TypeScript Windows application that recreates the supplied neon school-hallway mod-menu design. The frameless desktop window uses custom Agefield controls and proportionally fits its complete design canvas into every supported window size without document scrollbars. It is intentionally offline-only: there are no network requests, analytics, accounts, or multiplayer features.
 
 ## Current integration status
