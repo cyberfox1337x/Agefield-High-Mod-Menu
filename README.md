@@ -54,7 +54,6 @@ The v1.6.0 Setup EXE is an installer of the per machine type which requires Admi
 
 When performing a clean install of a game, Setup will install all payloads of the reviewed runtime. If the exact supported UE4SS Loader already exists, Setup will preserve other mods and configurations. Only HookProcessInternal=1, HookInitGameState=1, Keybinds : 1, AgefieldModBridge : 1, and AgefieldReflectionDiscovery : 0 will be merged into this existing Loader.
 
-Pre-install files will be backup under %ProgramData%\Cyberfox1337x\AgefieldHighModMenu\Runtime. Update and Uninstall Restore will only restore Settings Entries owned by Agefield to prevent loss of unrelated changes made after installation.
 
 Do NOT close the game prior to installing, updating, or uninstalling. The Portable EXE will remain a UI-only build when user has the verified runtime installed; no modifications will be performed to the game. npm run package:nexus generates the most current ZIP ready for nexus (documentation included), Third Party Notice File, Checksum Files and uploads nothing.
 
