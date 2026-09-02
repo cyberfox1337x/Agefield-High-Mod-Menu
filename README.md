@@ -51,16 +51,6 @@ On a clean game install, Setup installs the complete reviewed runtime payload. W
 
 Close the game before installing, updating, or uninstalling. The Portable EXE remains a UI-only build for users who already have the verified runtime installed; it does not modify the game. `npm run package:nexus` creates the latest Nexus-ready ZIP, documentation, third-party notice, and checksums without uploading anything.
 
-## Safety boundary
-
-- Offline single-player use only.
-- The renderer cannot access files or Node.js; it can issue only exact allowlisted commands through the preload boundary.
-- The runtime mod targets the verified official Steam shipping build and does not patch the executable.
-- The changed live autosave was preserved without overwrite. Pre-test saves remain available at `backups\official-save-pre-all-controls-20260901-1605\Saved` and `backups\official-uue4ss-pre-teleport-20260901-170002`.
-- Temporary equipment-converting spawn experiments are excluded from production after a QA-session access violation. The clean restart is responsive, and no graffiti, QA weapon, or spawned-item class string was found in the preserved autosave.
-- No online, anti-cheat, DRM, or multiplayer hooks are included.
-- Electron uses `contextIsolation`, a sandboxed renderer, no Node.js integration, a typed allowlisted preload bridge, a restrictive CSP, blocked external navigation, and single-instance startup.
-- The supported window floor is 900x564; the entire 1500x940 design canvas scales down as one unit instead of hiding or reflowing sections.
 
 The current 1.6.0 installer and portable executable are the only files retained in `release/`.
 
