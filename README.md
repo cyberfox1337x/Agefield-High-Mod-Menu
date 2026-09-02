@@ -69,5 +69,5 @@ This repository contains the desktop application, production UE4SS Lua bridge, i
 
 This is an unofficial offline single-player mod and is not affiliated with or endorsed by Refugium Games. Development and visual iteration were AI-assisted under human direction, with final design, integration choices, validation, and publication owned by Cyberfox1337x.
 
-[![Read the Full Explanation](https://img.shields.io/badge/Read%20the%20Full%20Explanation-2E9EF7?style=for-the-badge)](https://agefield-high-article.feel-by-sale.workers.dev/)
+[![Read the Full Explanation](https://img.shields.io/badge/Read%20the%20Full%20Explanation-9750ff?style=for-the-badge)](https://agefield-high-article.feel-by-sale.workers.dev/)
 
