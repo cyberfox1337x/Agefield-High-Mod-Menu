@@ -1,0 +1,99 @@
+{
+  "name": "agefield-high-offline-mod-menu",
+  "private": true,
+  "version": "1.6.0",
+  "description": "Offline single-player control menu for Agefield High — Rock the School.",
+  "author": "cyberfox1337x",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "cyberfox1337x": "function(package_manifest)",
+  "scripts": {
+    "dev": "npm run build:electron && concurrently -k \"vite --host 127.0.0.1 --port 5173\" \"wait-on tcp:127.0.0.1:5173 && cross-env AGEFIELD_DEV_URL=http://127.0.0.1:5173 electron .\"",
+    "start": "electron .",
+    "build:renderer": "tsc -b tsconfig.app.json && vite build",
+    "build:electron": "tsc -p electron/tsconfig.json",
+    "build": "npm run build:renderer && npm run build:electron",
+    "prepare:icon": "node scripts/create-icon.mjs",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "test:runtime-installer": "powershell -NoProfile -ExecutionPolicy Bypass -File installer/AgefieldRuntimeInstaller.Tests.ps1",
+    "prepare:runtime": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Prepare-AgefieldRuntimePayload.ps1",
+    "package:nexus": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Prepare-NexusPackage.ps1",
+    "preview": "vite preview --host 127.0.0.1",
+    "package:win": "npm run prepare:runtime && npm run test:runtime-installer && npm run build && electron-builder --win nsis portable && node scripts/clean-release.mjs && npm run package:nexus"
+  },
+  "dependencies": {
+    "@fontsource/barlow-condensed": "^5.2.7",
+    "@fontsource/bebas-neue": "^5.2.7",
+    "@fontsource/permanent-marker": "^5.2.7",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.34.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "png-to-ico": "^3.0.1",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.41.0",
+    "vite": "^7.1.3",
+    "vitest": "^3.2.4",
+    "wait-on": "^8.0.4"
+  },
+  "build": {
+    "appId": "com.cyberfox1337x.agefieldhigh.offlinemenu",
+    "productName": "Agefield High Mod Menu",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "installer/AgefieldRuntimeInstaller.ps1",
+        "to": "agefield-runtime/AgefieldRuntimeInstaller.ps1"
+      },
+      {
+        "from": "installer/runtime",
+        "to": "agefield-runtime"
+      }
+    ],
+    "win": {
+      "icon": "build-assets/icon.ico",
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ]
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}",
+      "oneClick": true,
+      "perMachine": true,
+      "include": "installer/installer.nsh",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}-${arch}.${ext}"
+    }
+  }
+}

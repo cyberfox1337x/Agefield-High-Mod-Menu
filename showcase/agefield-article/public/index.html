@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#080712">
+    <meta name="author" content="cyberfox1337x">
+    <meta name="generator" content='cyberfox1337x.function("agefield_build_article")'>
+    <title>Agefield High Mod Menu | Building a Verified Unreal Bridge</title>
+    <meta name="description" content="How I built the Agefield High Mod Menu as a locked-down Electron application, verified Unreal Engine 5.3 Lua bridge, and transactional one-click installer.">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Agefield High Mod Menu | Building a Verified Unreal Bridge">
+    <meta property="og:description" content="The second build-notes entry from cyberfox1337x: UI architecture, Unreal contracts, grounded teleports, event-driven No Clip, and a fail-closed installer.">
+    <meta property="og:site_name" content="cyberfox1337x · Build Notes">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agefield High Mod Menu | Building a Verified Unreal Bridge">
+    <meta name="twitter:description" content="How I built the desktop menu, Unreal runtime bridge, and one-click installer.">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+    <script src="assets/js/theme-init.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#article-content">Skip to article</a>
+    <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false" title="Switch color theme">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 3v2.25M12 18.75V21M3 12h2.25M18.75 12H21M5.64 5.64l1.59 1.59M16.77 16.77l1.59 1.59M18.36 5.64l-1.59 1.59M7.23 16.77l-1.59 1.59"></path><circle cx="12" cy="12" r="4.25"></circle></svg>
+    </button>
+
+    <nav class="project-nav" aria-label="Build notes projects">
+      <div class="wrap">
+        <a class="project-link" href="https://programs-article.feel-by-sale.workers.dev/" rel="noopener">
+          <span class="index">Work 01 · Previous</span>
+          <strong>Sons of the Forest Menu</strong>
+        </a>
+        <a class="project-link current" href="#article-content" aria-current="page">
+          <span class="index">Work 02 · Current</span>
+          <strong>Agefield High Mod Menu</strong>
+        </a>
+      </div>
+    </nav>
+
+    <header class="masthead">
+      <div class="wrap">
+        <p class="eyebrow">Build notes · game modding · work 02</p>
+        <h1>Agefield High Mod Menu</h1>
+        <p class="article-topic">Building a Verified Unreal Bridge</p>
+        <p class="article-overview">This is an overview of how I programmed the desktop menu, connected it to Unreal Engine 5.3, and built one installer that can set everything up without blindly overwriting a game.</p>
+        <p class="standfirst">The UI was the visible part, but it was not the difficult part. The real work was proving which game functions actually existed, making every control reversible, reducing No Clip overhead without hammering the CPU, and refusing to install against a Steam build I had not verified.</p>
+        <p class="byline"><strong>cyberfox1337x</strong><span>Agefield High Mod Menu v1.6.0</span><span>Electron + TypeScript + Lua</span></p>
+      </div>
+    </header>
+
+    <main class="wrap" id="article-content" tabindex="-1">
+      <section aria-labelledby="section-01-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">01</span><h2 id="section-01-title">The first problem was not the menu</h2></div>
+        <p>Agefield High is an Unreal Engine 5.3 game. There is no regular project source sitting next to the shipping executable, and asset names alone are not enough to tell me that a property is safe to write. A Blueprint name can show that something probably exists, but it does not prove the live class, function signature, object lifetime, or restoration behavior.</p>
+        <p>That meant I could not begin by wiring every button from the reference design to a guess. I first had to separate three different things: what looked good in the menu, what appeared in cooked data, and what the running official build could prove.</p>
+        <ul class="plain">
+          <li><strong>The application layer</strong> had to stay isolated from the game and render the complete 1500 by 940 design without scrollbars.</li>
+          <li><strong>The runtime layer</strong> had to accept only exact commands that were verified against the current game session.</li>
+          <li><strong>The installer</strong> had to prove the Steam build and executable hash before it copied a single runtime file.</li>
+        </ul>
+        <div class="note"><span class="label">The rule I followed</span><p>Seeing a name in FModel or an SDK dump was treated as discovery evidence, not permission to build a working control around it. A feature did not ship until I had a live contract, read-back, and a way to put the original state back.</p></div>
+      </section>
+
+      <section aria-labelledby="section-02-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">02</span><h2 id="section-02-title">Proving the build before touching it</h2></div>
+        <p>I worked against the official Steam installation, App ID <code>3562580</code>, build <code>24987926</code>. The shipping executable is checked against its exact SHA-256 instead of trusting the folder name. That prevents the installer from assuming a renamed folder, incomplete copy, older game version, or unrelated executable is supported.</p>
+        <p>The runtime gate also rejects a running game, partial loader installations, conflicting proxy DLLs, unknown UE4SS bytes, repack or Steam-emulation markers, and the old non-Steam path that had already failed provenance checks.</p>
+        <pre><code><span class="comment"># The installer fails closed before copying anything</span>
+App ID      <span class="keyword">3562580</span>
+Build ID    <span class="keyword">24987926</span>
+Executable  <span class="keyword">exact SHA-256 match required</span>
+Runtime     <span class="keyword">UE4SS v3.0.1 exact payload</span></code></pre>
+        <div class="note verified"><span class="label">Verified result</span><p>The official manifest, build, install directory, executable hash, and complete 25-file runtime payload are checked before installation. A failure ends the transaction instead of trying to continue with a partial setup.</p></div>
+      </section>
+
+      <section aria-labelledby="section-03-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">03</span><h2 id="section-03-title">Keeping the desktop app away from the game process</h2></div>
+        <p>I did not put the user interface inside the game. The menu is a separate Electron application with a sandboxed renderer. It has no Node.js access, cannot browse the filesystem, cannot open random links, and cannot send arbitrary runtime commands.</p>
+        <p>The application and the Lua bridge exchange short command and response files in the current user's temporary directory. Every message is bound to the current game session, both sides maintain the same allowlist, and the application only reports success after the game returns a verified acknowledgement.</p>
+        <div class="architecture" role="group" aria-label="Application architecture">
+          <div class="node"><h4>React renderer</h4><p>Draws the full menu and exposes only the controls advertised by the live capability manifest.</p></div>
+          <div class="node"><h4>Electron boundary</h4><p>Validates action, detail, session, file name, and timeout before serializing one command.</p></div>
+          <div class="node"><h4>UE4SS Lua bridge</h4><p>Runs the verified Unreal call, reads the result back, and returns an exact response.</p></div>
+        </div>
+        <pre><code><span class="comment">// Unknown commands never reach the game</span>
+if (!capabilities.has(`${action}:${detail}`)) {
+  return { ok: <span class="keyword">false</span>, message: "Unsupported command." };
+}</code></pre>
+      </section>
+
+      <section aria-labelledby="section-04-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">04</span><h2 id="section-04-title">Making every control reversible</h2></div>
+        <p>A mod control is easy to turn on once. The harder part is turning it off without leaving the save or player in a modified state. I treated the off path as part of the feature instead of something to add later.</p>
+        <p>Unlimited Money is one example. Writing an arbitrary large value caused the HUD to wrap to <code>-9999</code>. The final control uses a HUD-safe 9,999 target and exact AddCurrency or RemoveCurrency deltas. The disable path restores a captured non-negative baseline rather than guessing what the user had before.</p>
+        <p>The same pattern is applied to walking speed, stamina consumption, collision, visibility, AI perception, gravity, movement mode, and input ownership. Reset Player also releases every state the menu owns.</p>
+        <div class="note"><span class="label">Why this matters</span><p>A toggle that changes a value but cannot prove the value was restored is not complete. Every shipped toggle has an off path, and the desktop status is synchronized from the runtime instead of assuming a click worked.</p></div>
+      </section>
+
+      <section aria-labelledby="section-05-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">05</span><h2 id="section-05-title">Fixing teleports that dropped the player</h2></div>
+        <p>The first teleport accepted the destination marker's Z value as success. That was wrong. Unreal World Partition can stream the marker before the nearby floor is ready, which is how a teleport can report the correct coordinates while the character falls through the map.</p>
+        <p>The final path temporarily uses Flying with collision disabled while the area loads. It traces downward for a blocking, upward-facing surface, adds the current capsule half-height, places the player, restores Walking and collision when appropriate, and waits through five grounded dwell checks before returning success.</p>
+        <p>If the floor never validates, the bridge restores the last safe location. Return uses the safe position saved immediately before the teleport instead of whatever coordinate happened to be written last.</p>
+        <div class="note verified"><span class="label">Five destinations passed live bridge QA</span><p>Agefield High, Home, Police Station, General Store, and Cloth Shop each passed grounded location read-back and Return testing in the development runtime. The packaged installer path still has the final physical acceptance check listed below. Sixteen additional markers stayed unpublished because I did not finish individual destination and return QA for them.</p></div>
+      </section>
+
+      <section aria-labelledby="section-06-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">06</span><h2 id="section-06-title">Cutting No Clip overhead without building a lag machine</h2></div>
+        <p>The first smooth-flight attempt used a permanent high-frequency loop that kept writing velocity. It worked, but it was exactly the kind of approach that can turn a small feature into a CPU problem.</p>
+        <p>The v1.5.5 bridge is event-driven. Key edges arm a 50 ms input monitor only while flight input is present. CharacterMovement sustains the velocity between checks, and a new velocity is written only when the input signature or travel yaw changes. Releasing a key stops movement immediately and clears queued input.</p>
+        <ul class="plain">
+          <li>W, A, S, and D are facing-relative and the character rotates into horizontal travel.</li>
+          <li>Space moves up and Z moves down.</li>
+          <li>The monitor self-stops when no flight input remains.</li>
+          <li>Main-menu activation is rejected and stale Pawn references are cleared across map changes.</li>
+        </ul>
+        <div class="note verified"><span class="label">Development scheduler proof</span><p>Inactive counters stayed flat, forward travel matched the expected and facing vectors at 1.000, collision restored after disabling, and every pending closure returned to zero. The lightweight 150 ms command poll is the only bridge worker that remains active while idle. Final packaged pacing remains an explicit physical acceptance item below.</p></div>
+      </section>
+
+      <section aria-labelledby="section-07-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">07</span><h2 id="section-07-title">The menu itself</h2></div>
+        <p>The reference had the energy I wanted: a school hallway after dark, distressed Agefield branding, and violet controls that look more like stage lighting than a Windows utility. I rebuilt that as one frameless application surface rather than placing a website inside a normal window frame.</p>
+        <p>The entire 1500 by 940 canvas scales as one unit down to the supported 900 by 564 window. Nothing reflows into a second layout, sections do not disappear, and the document never creates a scrollbar. F10 minimizes or restores the real Windows application globally.</p>
+        <figure class="screen-frame">
+          <img src="assets/images/agefield-menu.png" width="1500" height="940" alt="Agefield High Mod Menu Settings page showing the neon violet interface, F10 shortcut, and credits for Cyberfox1337x and tooka223">
+          <figcaption>Packaged v1.5.3 visual QA at the full 1500 × 940 application canvas. The v1.6.0 release preserves this interface and adds the one-click runtime installer.</figcaption>
+        </figure>
+        <div class="features">
+          <div class="feat"><h4>Player</h4><p>Nine reversible character toggles, Reset Player, Heal Player, and Clear Wanted.</p></div>
+          <div class="feat"><h4>Inventory</h4><p>Eight verified item definitions and exact-count restoration for items spawned during the session.</p></div>
+          <div class="feat"><h4>World</h4><p>Five grounded destinations, Return, Time of Day, and school-day time shortcuts.</p></div>
+          <div class="feat"><h4>Settings</h4><p>F10 window control and one focused credits card for Cyberfox1337x and tooka223.</p></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="section-08-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">08</span><h2 id="section-08-title">One installer, but not a reckless installer</h2></div>
+        <p>The Setup EXE contains the Electron application, UE4SS v3.0.1, the Lua bridge, the exact production settings, the license, backup logic, update handling, and uninstall restoration. The person installing it does not need Node.js, npm, Python, Lua, Cheat Engine, FModel, or a separate UE4SS download.</p>
+        <p>On a clean game it installs the complete reviewed payload. If the exact supported UE4SS loader is already present, it changes only the two required hook values and three mod-registry entries. Unrelated settings and mods are preserved.</p>
+        <p>Before copying files, it records the original state under ProgramData. Copies are atomic, every managed file is read back and hashed, and a failed first transaction removes only what the transaction created. Uninstall restores the Agefield-owned values while preserving unrelated edits made afterward.</p>
+        <div class="note"><span class="label">Just to be clear</span><p>The installer does not install Steam, the base game, or missing Windows system runtimes. It requires the supported official Steam build, administrator approval, the game to be closed, and enough space for the application plus its backups.</p></div>
+      </section>
+
+      <section aria-labelledby="section-09-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">09</span><h2 id="section-09-title">What is actually in the project</h2></div>
+        <div class="stats">
+          <div class="stat"><span class="n">3,777</span><span class="l">UI and shell lines</span></div>
+          <div class="stat"><span class="n">1,828</span><span class="l">Runtime Lua lines</span></div>
+          <div class="stat"><span class="n">1,703</span><span class="l">Installer and packaging lines</span></div>
+          <div class="stat"><span class="n">28</span><span class="l">Runtime capability tokens</span></div>
+          <div class="stat"><span class="n">25</span><span class="l">Verified payload files</span></div>
+          <div class="stat"><span class="n">26</span><span class="l">Automated tests</span></div>
+        </div>
+        <p>The application is TypeScript, TSX, CSS, Electron CommonJS preload code, PowerShell, NSIS, and Lua. ESLint passes with zero warnings, all 26 Vitest checks pass, the PowerShell installer fixtures pass traversal, merge, rollback, and update scenarios, the Lua parses, and the packaged file hashes match their sources.</p>
+        <p>I used AI-assisted development during this project, but I did not treat generated code or a green build as runtime proof. The contracts, source reviews, automated checks, in-game read-backs, failure cases, and restoration paths are what decided whether a feature could remain in the release.</p>
+      </section>
+
+      <section aria-labelledby="section-10-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">10</span><h2 id="section-10-title">Things I still need to finish</h2></div>
+        <p>I do not want to call a runtime gate complete just because the source and packaging checks passed. These are the remaining acceptance items for this build:</p>
+        <ul class="plain">
+          <li><strong>Run the final Setup through its normal elevated UAC lifecycle.</strong> The payload, merge, rollback, packaging, and extracted hashes are verified, but the final per-machine install still needs its ordinary live acceptance pass.</li>
+          <li><strong>Physically recheck No Clip pacing after restart.</strong> The scheduler and direction proofs passed, but the final v1.5.5 smoothness and lag gate still needs a human gameplay pass.</li>
+          <li><strong>Physically recheck teleport landing and Return.</strong> The grounded algorithm passed prior live tests; the packaged post-fix path still needs final acceptance after installation.</li>
+        </ul>
+        <div class="note pending"><span class="label">Current release boundary</span><p>The installer is packaged and the controls are based on verified contracts. The three acceptance items above remain visible because I am not replacing an unfinished physical test with a claim that everything is perfect.</p></div>
+      </section>
+
+      <section aria-labelledby="section-11-title" data-reveal>
+        <div class="sec-head"><span class="sec-num">11</span><h2 id="section-11-title">Source and download</h2></div>
+        <p>The source repository contains the desktop application, production bridge, installer, tests, and this build article. Game files, saves, private analysis, credentials, and generated release directories are excluded.</p>
+        <div class="downloads">
+          <a class="download-row" href="https://github.com/cyberfox1337x/Agefield-High-Mod-Menu/releases/tag/v1.6.0" rel="noopener" target="_blank"><span class="download-name">Setup v1.6.0</span><span class="download-note">One installer for the desktop app and every bundled mod-specific runtime requirement</span><span class="download-meta">Windows x64</span></a>
+          <a class="download-row" href="https://github.com/cyberfox1337x/Agefield-High-Mod-Menu" rel="noopener" target="_blank"><span class="download-name">Source</span><span class="download-note">Electron, React, TypeScript, Lua, PowerShell, NSIS, tests, and release documentation</span><span class="download-meta">GitHub</span></a>
+          <a class="download-row" href="https://programs-article.feel-by-sale.workers.dev/" rel="noopener"><span class="download-name">Work 01</span><span class="download-note">How I built the Sons of the Forest Menu against a compiled IL2CPP game</span><span class="download-meta">Previous article</span></a>
+        </div>
+        <p>The installer supports the official Steam App ID 3562580, build 24987926 only. It is currently unsigned, so Windows SmartScreen may show an unknown-publisher warning. The release checksum is published beside the download.</p>
+      </section>
+
+      <footer class="colophon" aria-label="Project details">
+        Agefield High Mod Menu v1.6.0 · built and written by cyberfox1337x<br>
+        Interface design support by tooka223 · UE4SS runtime by UE4SS-RE contributors<br>
+        Verified against Steam App ID 3562580 · build 24987926 · Unreal Engine 5.3<br>
+        Offline single-player only · no executable patching · no game assets distributed
+      </footer>
+    </main>
+  </body>
+</html>

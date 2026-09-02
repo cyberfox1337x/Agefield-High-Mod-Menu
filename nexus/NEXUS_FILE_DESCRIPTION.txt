@@ -1,0 +1,5 @@
+MAIN FILE — Agefield High Mod Menu v1.6.0 One-Click Installer
+
+Installs the Windows desktop menu and verified UE4SS v3.0.1 Agefield runtime for the official Steam App ID 3562580, build 24987926. Includes exact build/hash validation, backup/rollback, semantic coexistence with an existing supported UE4SS setup, and Windows uninstall restoration.
+
+Close the game before install, update, or uninstall. Offline single-player only. Unsigned publisher; verify CHECKSUMS.txt.

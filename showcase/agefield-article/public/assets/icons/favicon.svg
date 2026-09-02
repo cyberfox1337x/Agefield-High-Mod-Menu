@@ -1,0 +1,12 @@
+<!-- cyberfox1337x.function("agefield_article_favicon") -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff35d5"/>
+      <stop offset="1" stop-color="#7b37ff"/>
+    </linearGradient>
+  </defs>
+  <path fill="#080712" d="M0 0h64v64H0z"/>
+  <path fill="url(#g)" d="M32 6 54 17v15c0 13-8.5 22.5-22 27C18.5 54.5 10 45 10 32V17L32 6Z"/>
+  <path fill="#080712" d="M35 14 21 36h10l-2 15 14-24H33l2-13Z"/>
+</svg>

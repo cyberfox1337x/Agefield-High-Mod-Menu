@@ -1,0 +1,26 @@
+<!-- cyberfox1337x.function("agefield-uue4ss-readme") -->
+
+# Agefield High UUE4SS integration
+
+This folder contains the public production Lua bridge for the supported official Steam build of Agefield High: Rock the School.
+
+The private, disabled `AgefieldReflectionDiscovery` evidence collector is intentionally excluded from the public repository together with its output. Cooked names and discovery logs are not treated as writable runtime contracts.
+
+`AgefieldModBridge` v1.5.5 is the next-restart runtime source. It accepts only fixed commands from `%TEMP%\AgefieldHighModMenuBridge`, binds every command to the current mod boot ID, executes UObject calls on the game thread, and writes an acknowledged response for the Electron app. The runtime registry is:
+
+```text
+AgefieldReflectionDiscovery : 0
+AgefieldModBridge : 1
+```
+
+The production UEE4SS console and debug GUI are disabled, so the Electron application remains the only visible mod-menu window. Diagnostics continue to write to `UE4SS.log` in the shipping executable directory.
+
+While No Clip is enabled in the verified gameplay world, W/S/A/D, `SpaceBar`, and Z key-bind edges arm a bounded input monitor. Controller yaw determines forward/right movement, the combined axis vector is normalized, and the bridge applies a continuous `UMovementComponent::Velocity` at the captured `MaxFlySpeed` instead of frame-sparse `AddMovementInput` pulses. The 50 ms monitor exists only while at least one flight input is active; it stops itself after release. Velocity is written and read back only when the input signature or travel yaw changes, so CharacterMovement sustains motion between polls without a permanent 50 Hz game-thread property loop. A rejected contract restores the prior velocity, stops movement, disables only No Clip, and restores Walking/collision unless independently enabled Free Roam still owns Flying/collision-off. Actor yaw aligns with horizontal travel. Release/direction change consumes pending Pawn input and calls `StopMovementImmediately`; disable/reset releases the exact bridge-owned ignore stack and restores Walking/collision. The bridge does not modify `MaxFlySpeed` or flying braking values for No Clip. Main-menu transitions fail closed, while exact `Game_Level` subsystem discovery misses are treated as recoverable. `flight_input=`, `flight_velocity=`, `flight_status=`, `movement_status=`, `world_status=`, and the seven `flight_*_proof=` fields are diagnostics, not additional UI capabilities.
+
+Bridge v1.5.5 demand-arms all high-frequency work. Enabling No Clip does not start its input monitor; a movement-key edge starts the 50 ms monitor, and confirmed no-input stops it. The 500 ms teleport monitor exists only while a landing is pending, and the 500 ms enforcement loop exists only while at least one supported toggle is active. Each loop permits at most one queued game-thread closure and returns `true` to stop its UE4SS `LoopAsync` worker when its predicate becomes false. Flight ticks use exact world identity rather than full subsystem discovery. Bounded `ExecuteWithDelay` checks replace the former permanent grounded-status loop. `ready.txt` exposes `scheduler=` and monotonic `scheduler_counts=` diagnostics, including flight velocity writes and idle stops, so idle and active behavior can be verified without profiling the rendered game process as a whole.
+
+The 28-token conservative manifest adds live-verified Free Roam, Low Gravity, five marker-backed destinations plus Return, eight inventory-item spawns, and Restore Spawned Items to the prior player/time commands. `ready.txt` publishes these exact action/detail pairs in a comma-separated `capabilities=` field while retaining `active=` for current toggle state. The same capability set gates command dispatch inside Lua; unknown actions and unsupported details receive only `Unsupported command.` Consumers must hide controls absent from `capabilities`.
+
+Teleport is deliberately asynchronous. For marker destinations, the bridge first stages the player collision-off in Flying while the destination World Partition area loads, performs the same bounded `LineTraceSingle` pattern shipped with UE4SS, rejects missing or steep hits, places the capsule center above the traced floor, then restores Walking/collision unless No Clip or Free Roam is active. It writes no success response until five 500 ms dwell checks confirm grounded/stable position; every failure path restores the last grounded location and returns failure. Consumers must allow a 10-second teleport response timeout. `teleport_status=` exposes loading, dwell, stable, and restored diagnostics without adding a UI capability.
+
+The disabled discovery source contains a compatibility iterator for the Lua-table/TArray representations returned by UE4SS v3.0.1. It safely enumerated 56 current marker rows and 16 owned customization rows. It does not access the player's inventory component. Temporary equipment/graffiti QA was also removed after an access-violation exit; the final bridge supports only item classes proven to restore through item-count read-back. Sixteen additional marker destinations and five equipment-converting item classes remain unpublished because they did not complete isolated live restore QA.

@@ -1,0 +1,19 @@
+# cyberfox1337x.function("gitignore")
+node_modules/
+dist/
+dist-electron/
+release/
+visual-qa/
+analysis/
+backups/
+installer/runtime/
+integration/uue4ss/Mods/AgefieldReflectionDiscovery/
+.wrangler/
+.dev.vars
+.env
+.env.*
+coverage/
+*.local
+*.log
+.DS_Store
+Thumbs.db
