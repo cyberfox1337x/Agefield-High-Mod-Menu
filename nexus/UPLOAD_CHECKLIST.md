@@ -7,7 +7,6 @@ No credential is stored or consumed by this project. Initial publication remains
 - Use `NEXUS_LISTING.md` for the title, summary, and BBCode description.
 - Upload the single current ZIP from `nexus/release/` as the Main File.
 - Paste `NEXUS_FILE_DESCRIPTION.txt` into the file description.
-- Apply the correct AI-assisted/generated tag and retain the disclosure paragraph.
 - Credit Cyberfox1337x, tooka223, and UE4SS-RE contributors.
 - Confirm the archive contains no game assets, credentials, password, or unrelated files.
 - Compare the uploaded file against `CHECKSUMS.txt` before publishing.

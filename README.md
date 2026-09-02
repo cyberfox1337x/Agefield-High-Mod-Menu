@@ -67,7 +67,7 @@ This repository contains the desktop application, production UE4SS Lua bridge, i
 
 `npm run prepare:runtime` downloads only the pinned official UE4SS v3.0.1 archive and its MIT license, then refuses either file unless its reviewed size and SHA-256 match. See `THIRD_PARTY_NOTICES.md` for attribution.
 
-This is an unofficial offline single-player mod and is not affiliated with or endorsed by Refugium Games. validation, and publication owned by Cyberfox1337x.
+This is an unofficial offline single-player mod and is not affiliated with or endorsed by Refugium Games.
 
 [![Read the Full Explanation](https://img.shields.io/badge/Read%20the%20Full%20Explanation-9750ff?style=for-the-badge)](https://agefield-high-article.feel-by-sale.workers.dev/)
 

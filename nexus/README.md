@@ -39,6 +39,4 @@ Close the game before updating or uninstalling. Setup creates exact backups unde
 - **tooka223** — Graphic Designer; helped shape the menu design
 - **UE4SS-RE contributors** — UE4SS runtime, MIT license
 
-The application code, installer engineering, and listing copy were created with AI-assisted development and reviewed and tested by the author. Tag the Nexus listing accurately as AI-assisted/generated where the site requires it.
-
 The included v1.5.5 No Clip pacing and post-fix teleport landing path still require physical confirmation in the official game after restart; this listing does not claim that pending runtime gate has passed.

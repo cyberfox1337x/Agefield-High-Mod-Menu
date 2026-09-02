@@ -51,8 +51,5 @@ Close the game, then uninstall Agefield High Mod Menu from Windows Settings. The
 [b]tooka223[/b] — Graphic Designer; helped shape the menu design
 [b]UE4SS-RE contributors[/b] — UE4SS runtime
 
-[heading]AI disclosure[/heading]
-The application code, installer engineering, and listing copy were created with AI-assisted development and reviewed and tested by the author. Apply the appropriate Nexus AI tag/disclosure when publishing.
-
 [heading]Current runtime confirmation gate[/heading]
 The included v1.5.5 No Clip pacing and post-fix teleport landing path still require physical confirmation in the official game after restart. I am not marking that pending runtime gate as passed.

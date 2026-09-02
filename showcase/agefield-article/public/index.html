@@ -32,14 +32,20 @@
     </button>
 
     <nav class="project-nav" aria-label="Build notes projects">
-      <div class="wrap">
+      <div class="wrap project-tabs">
         <a class="project-link" href="https://programs-article.feel-by-sale.workers.dev/" rel="noopener">
-          <span class="index">Work 01 · Previous</span>
-          <strong>Sons of the Forest Menu</strong>
+          <span class="project-mark" aria-hidden="true">01</span>
+          <span class="project-label">
+            <span class="index">Work 01</span>
+            <strong>Sons of the Forest Menu</strong>
+          </span>
         </a>
-        <a class="project-link current" href="#article-content" aria-current="page">
-          <span class="index">Work 02 · Current</span>
-          <strong>Agefield High Mod Menu</strong>
+        <a class="project-link current" href="/" aria-current="page">
+          <span class="project-mark" aria-hidden="true">02</span>
+          <span class="project-label">
+            <span class="index">Work 02</span>
+            <strong>Agefield High Mod Menu</strong>
+          </span>
         </a>
       </div>
     </nav>
@@ -159,7 +165,6 @@ if (!capabilities.has(`${action}:${detail}`)) {
           <div class="stat"><span class="n">26</span><span class="l">Automated tests</span></div>
         </div>
         <p>The application is TypeScript, TSX, CSS, Electron CommonJS preload code, PowerShell, NSIS, and Lua. ESLint passes with zero warnings, all 26 Vitest checks pass, the PowerShell installer fixtures pass traversal, merge, rollback, and update scenarios, the Lua parses, and the packaged file hashes match their sources.</p>
-        <p>I used AI-assisted development during this project, but I did not treat generated code or a green build as runtime proof. The contracts, source reviews, automated checks, in-game read-backs, failure cases, and restoration paths are what decided whether a feature could remain in the release.</p>
       </section>
 
       <section aria-labelledby="section-10-title" data-reveal>
